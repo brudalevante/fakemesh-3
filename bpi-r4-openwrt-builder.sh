@@ -12,10 +12,8 @@ echo "==== 0. LIMPIEZA PREVIA ===="
 rm -rf openwrt mtk-openwrt-feeds tmp_comxwrt
 
 echo "==== 1. CLONA OPENWRT ===="
-git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt
-cd openwrt
-git checkout e876f7bc62592ca8bc3125e55936cd0f761f4d5a
-cd ..
+git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
+cd openwrt; git checkout e876f7bc62592ca8bc3125e55936cd0f761f4d5a; cd -;		#add support for Zbtlink ZBT-Z8102AX v2
 
 echo "==== 1.1. COPIA CONFIGURACIÓN PERSONALIZADA ===="
 mkdir -p openwrt/files
@@ -31,11 +29,10 @@ fi
 find my_files -mindepth 1 -maxdepth 1 ! -name 'etc' -exec cp -rv {} openwrt/files/ \;
 
 echo "==== 2. CLONA MTK FEEDS ===="
-git clone https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds
-cd mtk-openwrt-feeds
-git checkout f737b2f5f33d611f9e96f91ffccd0531700b6282
-cd ..
-echo "f737b2f" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
+cd mtk-openwrt-feeds; git checkout 7ab016b920ee13c0c099ab8b57b1774c95609deb; cd -;	#Fix nf_conn_qos offset len incorrect issue
+
+echo "7ab016b" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 echo "==== 3. COPIA CONFIG Y PARCHES ===="
 cp -r configs/dbg_defconfig_crypto mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
