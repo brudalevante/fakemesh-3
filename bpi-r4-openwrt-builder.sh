@@ -59,6 +59,7 @@ cp -rv tmp_comxwrt/luci-app-autoreboot openwrt/package/
 cp -rv tmp_comxwrt/luci-app-cpu-status openwrt/package/
 cp -rv tmp_comxwrt/luci-app-temp-status openwrt/package/
 cp -rv tmp_comxwrt/luci-app-dawn openwrt/package/
+cp -rv tmp_comxwrt/luci-app-usteer openwrt/package/
 
 # Kmods personalizados (si existen)
 if [ -d my_files/kmods ]; then
@@ -84,6 +85,7 @@ echo "CONFIG_PACKAGE_luci-app-autoreboot=y" >> .config
 echo "CONFIG_PACKAGE_luci-app-cpu-status=y" >> .config
 echo "CONFIG_PACKAGE_luci-app-temp-status=y" >> .config
 echo "CONFIG_PACKAGE_luci-app-dawn=y" >> .config
+echo "CONFIG_PACKAGE_luci-app-usteer=y" >> .config
 make defconfig
 
 echo "==== 11. VERIFICA PAQUETES EN .CONFIG ===="
@@ -92,6 +94,7 @@ grep autoreboot .config    || echo "NO aparece autoreboot en .config"
 grep cpu-status .config    || echo "NO aparece cpu-status en .config"
 grep temp-status .config   || echo "NO aparece temp-status en .config"
 grep dawn .config          || echo "NO aparece dawn en .config"
+grep usteer .config        || echo "NO aparece usteer en .config"
 
 echo "==== 12. AÑADE SEGURIDAD: DESACTIVA PERF EN EL .CONFIG FINAL ===="
 sed -i '/^CONFIG_PACKAGE_perf=y/d' .config
