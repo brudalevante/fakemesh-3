@@ -98,6 +98,7 @@ grep usteer .config        || echo "NO aparece usteer en .config"
 
 echo "==== 12. AÑADE SEGURIDAD: DESACTIVA PERF EN EL .CONFIG FINAL ===="
 sed -i '/^CONFIG_PACKAGE_perf=y/d' .config
+echo "# CONFIG_PACKAGE_perf is not set" >> .config
 
 echo "==== 13. EJECUTA AUTOBUILD ===="
 bash ../mtk-openwrt-feeds/autobuild/unified/autobuild.sh filogic-mac80211-mt7988_rfb-mt7996 log_file=make
