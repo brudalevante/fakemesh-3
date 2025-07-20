@@ -124,6 +124,12 @@ sed -i '/^CONFIG_PACKAGE_perf=y/d' .config
 sed -i '/^# CONFIG_PACKAGE_perf is not set/d' .config
 echo "# CONFIG_PACKAGE_perf is not set" >> .config
 
+# Chequeo estricto: aborta si sigue perf=y
+if grep -q "^CONFIG_PACKAGE_perf=y" .config; then
+    echo "ERROR: perf sigue en .config, abortando build"
+    exit 1
+fi
+
 echo "==== VERIFICACIÓN PERF FINAL ===="
 grep perf .config || echo "perf NO está en .config"
 
