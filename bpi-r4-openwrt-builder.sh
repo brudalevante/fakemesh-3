@@ -21,7 +21,6 @@ echo "==== ELIMINA TODOS LOS PARCHES CONFLICTIVOS DE cryptsetup ===="
 find mtk-openwrt-feeds -type f -name 'cryptsetup-*.patch' -delete
 
 echo "==== 1b. CAMBIA KERNEL A 6.6.98 AUTOMÁTICAMENTE ===="
-# Cambia la versión de kernel para mediatek (ajusta si usas otro target)
 TARGET_MK="openwrt/target/linux/mediatek/Makefile"
 if [ -f "$TARGET_MK" ]; then
     echo "Cambiando LINUX_VERSION a 6.6.98 en $TARGET_MK"
@@ -30,7 +29,6 @@ else
     echo "No se encontró $TARGET_MK, revisa la ruta del target"
 fi
 
-# Añade el hash en include/kernel-version.mk si no está presente
 HASH_LINE="LINUX_KERNEL_HASH-6.6.98 := 296a34c500abc22c434b967d471d75568891f06a98f11fc31c5e79b037f45de5"
 KVER_MK="openwrt/include/kernel-version.mk"
 if grep -q '^LINUX_KERNEL_HASH-6.6.98' "$KVER_MK"; then
@@ -44,7 +42,6 @@ echo "==== 3. PREPARA FEEDS Y CONFIGURACIONES BASE ===="
 echo cc0de56"" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 cp -r configs/dbg_defconfig_crypto mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 
-# Desactiva perf en los defconfig de los feeds
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/autobuild_5.4_mac80211_release/mt7988_wifi7_mac80211_mlo/.config
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/autobuild_5.4_mac80211_release/mt7986_mac80211/.config
@@ -61,7 +58,6 @@ cp -r my_files/999-2764-net-phy-sfp-add-some-FS-copper-SFP-fixes.patch openwrt/t
 # cp -r my_files/99999_tx_power_check_by_dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 echo "==== 5. COPIA PAQUETES PERSONALIZADOS ===="
-# Paquetes de fakemesh y otros desde el repo
 git clone --depth=1 --single-branch --branch main https://github.com/brudalevante/fakemesh-6g.git tmp_comxwrt
 cp -rv tmp_comxwrt/luci-app-fakemesh openwrt/package/
 cp -rv tmp_comxwrt/luci-app-autoreboot openwrt/package/
@@ -100,7 +96,6 @@ sed -i 's/^CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' .config
 echo "==== 10. EJECUTA AUTOBUILD ===="
 bash ../mtk-openwrt-feeds/autobuild/unified/autobuild.sh filogic-mac80211-mt7988_rfb-mt7996 log_file=make
 
-# ==== ELIMINAR EL WARNING EN ROJO DEL MAKEFILE ====
 sed -i 's/\($(call ERROR_MESSAGE,WARNING: Applying padding.*\)/#\1/' package/Makefile
 
 echo "==== 11. COMPILA ===="
