@@ -73,26 +73,23 @@ if [ -d my_files/etc ]; then
   cp -rv my_files/etc/* openwrt/files/etc/
 fi
 
-echo "==== 9. ENTRA EN OPENWRT Y PREPARA FEEDS ===="
+echo "==== 9. ENTRA EN OPENWRT Y USA feeds.conf.default OFICIAL ===="
 cd openwrt
 
-echo "==== LIMPIANDO feeds.conf.default y feeds/ previos ===="
-rm -f feeds.conf.default
+echo "==== LIMPIANDO feeds/ previos ===="
 rm -rf feeds/
 
-echo "==== ESCRIBIENDO feeds.conf.default SOLO CON TUS FEEDS ===="
+echo "==== ESCRIBIENDO feeds.conf.default SOLO CON LOS FEEDS OFICIALES ===="
 cat > feeds.conf.default <<EOF
-src-git packages https://github.com/brudalevante/packages.git
-src-git luci https://github.com/brudalevante/luci.git
-src-git routing https://github.com/brudalevante/routing.git
-src-git telephony https://github.com/brudalevante/telephony.git
+src-git packages https://git.openwrt.org/feed/packages.git
+src-git luci https://git.openwrt.org/project/luci.git
+src-git routing https://git.openwrt.org/feed/routing.git
+src-git telephony https://git.openwrt.org/feed/telephony.git
 EOF
 
-echo "==== CHEQUEO: REMOTO Y RAMA ===="
-git remote -v
-git rev-parse --abbrev-ref HEAD
-echo "==== CHEQUEO: feeds.conf.default ===="
+echo "==== REVISANDO feeds.conf.default ===="
 cat feeds.conf.default
+grep 'openwrt.org' feeds.conf.default && echo "OK: Se usarán los feeds oficiales" || echo "ATENCIÓN: No se encuentran los feeds oficiales, revisar archivo"
 
 cp -r ../configs/$CONFIG_BASENAME .config 2>/dev/null || echo "No existe $CONFIG_BASENAME, omitiendo"
 
