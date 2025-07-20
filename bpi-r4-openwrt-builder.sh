@@ -44,7 +44,7 @@ echo "==== 3. PREPARA FEEDS Y CONFIGURACIONES BASE ===="
 echo "f737b2f" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 cp -r configs/dbg_defconfig_crypto mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 
-# Desactiva perf
+# Desactiva perf en los defconfig de los feeds
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/autobuild_5.4_mac80211_release/mt7988_wifi7_mac80211_mlo/.config
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/autobuild_5.4_mac80211_release/mt7986_mac80211/.config
@@ -94,16 +94,19 @@ grep cpu-status .config    || echo "NO aparece cpu-status en .config"
 grep temp-status .config   || echo "NO aparece temp-status en .config"
 grep dawn .config          || echo "NO aparece dawn en .config"
 
-echo "==== 9. EJECUTA AUTOBUILD ===="
+echo "==== 9. AÑADE SEGURIDAD: DESACTIVA PERF EN EL .CONFIG FINAL ===="
+sed -i 's/^CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' .config
+
+echo "==== 10. EJECUTA AUTOBUILD ===="
 bash ../mtk-openwrt-feeds/autobuild/unified/autobuild.sh filogic-mac80211-mt7988_rfb-mt7996 log_file=make
 
 # ==== ELIMINAR EL WARNING EN ROJO DEL MAKEFILE ====
 sed -i 's/\($(call ERROR_MESSAGE,WARNING: Applying padding.*\)/#\1/' package/Makefile
 
-echo "==== 10. COMPILA ===="
+echo "==== 11. COMPILA ===="
 make -j$(nproc)
 
-echo "==== 11. LIMPIEZA FINAL ===="
+echo "==== 12. LIMPIEZA FINAL ===="
 cd ..
 rm -rf tmp_comxwrt
 
