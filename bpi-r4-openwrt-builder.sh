@@ -88,6 +88,11 @@ echo "CONFIG_PACKAGE_luci-app-dawn=y" >> .config
 echo "CONFIG_PACKAGE_luci-app-usteer=y" >> .config
 make defconfig
 
+# ===== BLOQUE CRÍTICO: Desactiva perf después de make defconfig =====
+sed -i '/^CONFIG_PACKAGE_perf=y/d' .config
+echo "# CONFIG_PACKAGE_perf is not set" >> .config
+# ====================================================================
+
 echo "==== 11. VERIFICA PAQUETES EN .CONFIG ===="
 grep fakemesh .config      || echo "NO aparece fakemesh en .config"
 grep autoreboot .config    || echo "NO aparece autoreboot en .config"
@@ -96,7 +101,7 @@ grep temp-status .config   || echo "NO aparece temp-status en .config"
 grep dawn .config          || echo "NO aparece dawn en .config"
 grep usteer .config        || echo "NO aparece usteer en .config"
 
-echo "==== 12. AÑADE SEGURIDAD: DESACTIVA PERF EN EL .CONFIG FINAL ===="
+echo "==== 12. AÑADE SEGURIDAD: DESACTIVA PERF EN EL .CONFIG FINAL (por si acaso) ===="
 sed -i '/^CONFIG_PACKAGE_perf=y/d' .config
 echo "# CONFIG_PACKAGE_perf is not set" >> .config
 
