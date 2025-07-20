@@ -76,7 +76,11 @@ fi
 echo "==== 9. ENTRA EN OPENWRT Y PREPARA FEEDS ===="
 cd openwrt
 
-# Reemplaza feeds.conf.default por tus feeds SIEMPRE (por si acaso)
+echo "==== LIMPIANDO feeds.conf.default y feeds/ previos ===="
+rm -f feeds.conf.default
+rm -rf feeds/
+
+echo "==== ESCRIBIENDO feeds.conf.default SOLO CON TUS FEEDS ===="
 cat > feeds.conf.default <<EOF
 src-git packages https://github.com/brudalevante/packages.git
 src-git luci https://github.com/brudalevante/luci.git
@@ -89,7 +93,6 @@ git remote -v
 git rev-parse --abbrev-ref HEAD
 echo "==== CHEQUEO: feeds.conf.default ===="
 cat feeds.conf.default
-rm -rf feeds/
 
 cp -r ../configs/$CONFIG_BASENAME .config 2>/dev/null || echo "No existe $CONFIG_BASENAME, omitiendo"
 
