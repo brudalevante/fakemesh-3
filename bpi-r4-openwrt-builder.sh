@@ -12,7 +12,6 @@ git clone --branch openwrt-24.10 https://github.com/brudalevante/openwrt.git ope
 cd openwrt
 git checkout bb59922007043c0a0813d62b0d9f6e801caff9df
 cd ..
-
 git clone https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
 cd mtk-openwrt-feeds
 git checkout cc0de566eb90309e997d66ed1095579eb3b30751
