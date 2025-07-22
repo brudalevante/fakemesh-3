@@ -1,10 +1,10 @@
 # bpi-r4-openwrt-builder
  
- >git clone ht<span>tps://github.com/brudalevante/fakemesh-2.git
+ >git clone ht<span>tps://github.com/brudalevante/fakemesh-3.git
  
- >chmod 776 -R fakemesh-2
+ >chmod 776 -R fakemesh-3
  
- >cd fakemesh-2
+ >cd fakemesh-3
  
  BEFORE RUNNING BUILDER READ ALL COMMENTS IN THE SCRIPT !
  
