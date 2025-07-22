@@ -33,11 +33,11 @@ config device
 
 config device
 	option name 'wan'
-	option macaddr '4a:70:fe:93:18:08'
+	option macaddr '4a:70:fe:93:18:09'
 
 config device
 	option name 'eth2'
-	option macaddr '4a:70:fe:93:18:08'
+	option macaddr '4a:70:fe:93:18:09'
 
 config interface 'wan'
 	option device 'br-wan'
