@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "==== 1. LIMPIEZA ===="
+echo "==== 1. LIMPIEZA PREVIA ===="
 rm -rf openwrt mtk-openwrt-feeds tmp_comxwrt
 
 echo "==== 2. CLONA REPOS DESDE TUS FORKS ===="
@@ -135,8 +135,8 @@ grep fakemesh .config      || echo "NO aparece fakemesh en .config"
 grep autoreboot .config    || echo "NO aparece autoreboot en .config"
 grep cpu-status .config    || echo "NO aparece cpu-status en .config"
 grep temp-status .config   || echo "NO aparece temp-status en .config"
-grep dawn2 .config          || echo "NO aparece dawn en .config"
-grep usteer2 .config        || echo "NO aparece usteer en .config"
+grep dawn2 .config         || echo "NO aparece dawn en .config"
+grep usteer2 .config       || echo "NO aparece usteer en .config"
 
 echo "==== 12. SEGURIDAD EXTRA: DESACTIVA PERF EN EL .CONFIG FINAL (por si acaso) ===="
 sed -i '/CONFIG_PACKAGE_perf=y/d' .config
